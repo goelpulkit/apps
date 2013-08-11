@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *fahrenheitTempTextField;
 @property (nonatomic, strong) IBOutlet UITextField *celciusTempTextField;
-@property (nonatomic, strong) IBOutlet UIButton *button;
 @property (nonatomic, strong) IBOutlet UILabel *errorLabel;
 
 - (IBAction) onDoneButton;
