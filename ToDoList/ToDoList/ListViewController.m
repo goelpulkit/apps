@@ -79,9 +79,31 @@
 
     self.navigationItem.leftBarButtonItem = nil;
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelTextFieldEditing)];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTextFieldEditing)];
     
     [self.tableView reloadData];
+    
+// for opening keyboard on adding a new cell
+//    EditableCell *cell = (EditableCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    [cell.textField becomeFirstResponder];
+}
+
+- (void) cancelTextFieldEditing {
+    NSLog(@"Inside cancelTextFieldEditing method");
+    
+    self.isAdd = NO;
+    
+    if(self.toDoTasks.count != 0){
+        [self.toDoTasks removeObjectAtIndex:0];
+    }
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonPressed)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed)];
+    
+     [self.tableView reloadData];
 }
 
 - (void) doneTextFieldEditing {
@@ -119,7 +141,11 @@
     [[cell textField] setEnabled:NO];
     if(self.isAdd == YES && indexPath.row == 0){
         [[cell textField] setEnabled:YES];
-        [[cell textField] becomeFirstResponder];
+  //      [[cell textField] becomeFirstResponder];
+        
+        // for opening keyboard on adding a new cell
+        [[cell textField] performSelectorOnMainThread:@selector(becomeFirstResponder) withObject:nil waitUntilDone:NO];        
+        
         self.currentCell = cell;
     }
     
